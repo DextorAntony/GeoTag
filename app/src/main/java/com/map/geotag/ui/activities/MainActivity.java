@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
 
@@ -167,14 +168,12 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQ_CODE_CAMERA: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    takePhotoFromCamera();
-                } else {
-                    Toast.makeText(MainActivity.this, "Please grant necessary permission(s)", Toast.LENGTH_SHORT).show();
-                }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQ_CODE_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePhotoFromCamera();
+            } else {
+                Toast.makeText(MainActivity.this, "Please grant necessary permission(s)", Toast.LENGTH_SHORT).show();
             }
         }
     }
