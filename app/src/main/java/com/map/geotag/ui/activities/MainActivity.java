@@ -1,6 +1,7 @@
 package com.map.geotag.ui.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -221,8 +222,11 @@ public class MainActivity extends AppCompatActivity
 
     private void takePhotoFromCamera() {
         try {
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-            String imageFileName = timeStamp + ".jpg";
+
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String millisInString  = dateFormat.format(new Date());
+            //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String imageFileName = millisInString + ".jpg";
             File storageDir = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES);
             pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;

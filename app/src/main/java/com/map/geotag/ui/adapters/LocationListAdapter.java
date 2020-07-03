@@ -53,10 +53,22 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         TextView tvAddress = llLocation.findViewById(R.id.tvAddress);
         TextView tvLatLong = llLocation.findViewById(R.id.tvLatLong);
         TextView dateiv = llLocation.findViewById(R.id.date);
-        String date = new SimpleDateFormat("dd:MM:yyyy  hh:mm", Locale.getDefault()).format(new Date());
+       // String date = new SimpleDateFormat("dd:MM:yyyy  hh:mm", Locale.getDefault()).format(new Date());
         String add = location.getAddress();
         String lat = location.getLat();
         String longi = location.getLongi();
+        String date = location.getFile();
+        String str = date.substring(date.lastIndexOf("/")+1);
+        String year = str.substring(0,4);
+
+        String month = str.substring(4, 6);
+
+        String  day = str.substring(6, 8);
+
+        String hour = str.substring(9, 11);
+
+        String minute = str.substring(11, 13);
+        String format = year + "/"+month+"/"+day+" "+hour+"h:"+minute+"m";
         if (add == null || add.equals("")) {
             add = "No Address Found";
         }
@@ -68,7 +80,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         }
 
         tvAddress.setText(add);
-        dateiv.setText(date);
+        dateiv.setText(format);
         lat = String.format("%.5f", parseDouble(lat));
         longi = String.format("%.5f", parseDouble(longi));
         tvLatLong.setText(String.format(" \n Latitude : %s, Longitude : %s", lat, longi));
