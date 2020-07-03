@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -26,11 +27,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity
             googleMap.addMarker(new MarkerOptions().position(latLng).title(prevLocation.getAddress()).
                     icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
         }
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -162,6 +167,42 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 return false;
+            }
+        });
+        googleMap.setMyLocationEnabled(true);
+        googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location arg0) {
+                double latitude = arg0.getLatitude();
+                double longitude = arg0.getLongitude();
+               LatLng myPosition = new LatLng(latitude, longitude);
+                //googleMap.addMarker(new MarkerOptions().position(new LatLng(arg0.getLatitude(), arg0.getLongitude())).title("It's Me!"));
+                //CameraUpdate center = CameraUpdateFactory.newLatLngZoom(myPosition, 15);
+               // googleMap.moveCamera(center);
+//                googleMap.addMarker(new MarkerOptions()
+//                        .position(myPosition)
+//                        .alpha(0.8f)
+//                        .anchor(0.0f, 1.0f)
+//                       // .icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_pin))
+//                        .title("Your position :\n ")
+//                        .snippet(latitude + " and " + longitude));
+
+//                googleMap.addCircle(new CircleOptions()
+//                        .center(myPosition)   //set center
+//                        .radius(150)   //set radius in meters
+//                        .fillColor(0x402092fd)  //default
+//                        .strokeColor(Color.LTGRAY)
+//                        .strokeWidth(5));
+               // circle = googleMap.addCircle(circleOptions);
+
+
+//                CameraPosition cameraPosition = CameraPosition.builder()
+//                        .target(myPosition)
+//                        .zoom(15)
+//                        .bearing(90)
+//                        .build();
+
+               // googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),2000, null);
             }
         });
     }
@@ -198,6 +239,7 @@ public class MainActivity extends AppCompatActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA && resultCode == RESULT_OK) {
 
             File imgFile = new File(pictureImagePath);
